@@ -13,17 +13,26 @@ public class QuestionMain {
 		EntityManagerFactory emf=Persistence.createEntityManagerFactory("my-pu");
 		EntityManager em=emf.createEntityManager();
 		em.getTransaction().begin();
-		Question q=new Question("What is Java?", "M");
-		List<Answer> li=new ArrayList<>();
-		li.add(new Answer("Java IS OOP"));
-		li.add(new Answer("Java IS PI"));
-		li.add(new Answer("Java IS Simple"));
-		q.setAnswer(li);
-		em.persist(q);
-		em.getTransaction().commit();
-		System.out.println("Created.....");
+//		Question q=new Question("What is Java?", "M");
+//		List<Answer> li=new ArrayList<>();
+//		li.add(new Answer("Java is OOP", q));
+//		li.add(new Answer("Java is multithreaded",q));
+//		li.add(new Answer("Java is Simple",q));
+//		q.setAnswer(li);
+//		em.persist(q);
+//		em.getTransaction().commit();
+//		System.out.println("Created.....");
+		Question q=em.find(Question.class, 2);
+		System.out.println(q.getQuestionName());
+		q.getAnswer().forEach(a->System.out.println(a.getAnswer()));
 		
-
+		//Answer ans=em.find(Answer.class, 53);
+//		System.out.println("=========Answer==========");
+//		System.out.println(ans.getAnswer());
+//		System.out.println("===========Question==========");
+//		System.out.println(ans.getQuestion().getQuestionName());
+		em.remove(q);
+		em.getTransaction().commit();
 	}
 
 }

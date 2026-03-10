@@ -11,7 +11,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity
+//@Entity
 @Table(name = "productdata")
 public class Product {
 	@Id

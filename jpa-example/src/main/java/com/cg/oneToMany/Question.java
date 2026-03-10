@@ -9,14 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-@Entity
+//@Entity
 public class Question {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int qid;
 	private String questionName;
 	private String lavel;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "question",cascade = CascadeType.ALL)
 	private List<Answer> answer;
 	
 	public Question() {
