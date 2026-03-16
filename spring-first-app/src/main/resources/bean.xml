@@ -6,16 +6,16 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"> <!-- bean definitions here -->
 	
 	<context:annotation-config/>
-	<bean id="hello" class="com.cg.bean.HelloWorld" scope="singleton">
+	<!-- <bean id="hello" class="com.cg.bean.HelloWorld" scope="singleton">
 		<property name="name" value="Swati"/>
-		<!-- <constructor-arg name="name" value="Mansi"></constructor-arg> -->
+		<constructor-arg name="name" value="Mansi"></constructor-arg>
 		<property name="language">
-			<!-- <list>
+			<list>
 				<value>Hindi</value>
 				<value>English</value>
 				<value>Sanskrit</value>
 				<value>Hindi</value>
-			</list> -->
+			</list>
 			<set>
 				<value>Hindi</value>
 				<value>English</value>
@@ -28,7 +28,7 @@
 	<bean id="e" class="com.cg.bean.Employee">
 		<property name="empid" value="1001"/>
 		<property name="name" value="Jaladhi"/>
-		<!-- <property name="address" ref="add"/> -->
+		<property name="address" ref="add"/>
 	</bean>
 
 	<bean id="add" class="com.cg.bean.Address">
@@ -40,7 +40,7 @@
 		<property name="city" value="Gurgaon"/>
 		<property name="country" value="India"/>
 		<property name="zip" value="122001"/>
-	</bean>
+	</bean> -->
 </beans>
 
 
