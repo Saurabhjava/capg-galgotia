@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,14 +13,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.service.annotation.PutExchange;
 
+import com.cg.dto.EmployeeDTO;
 import com.cg.entity.Employee;
 import com.cg.service.IEmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
 @RestController
-@RequestMapping("employees")
+@RequestMapping("api/employee")
+@Tag(name = "EmployeeAPI", description = "This provide the CRUD operation with Employee Entity")
 public class EmployeeController {
 	//@Autowired
 	private IEmployeeService service;	
@@ -27,21 +36,23 @@ public class EmployeeController {
 		super();
 		this.service = service;
 	}
-	@GetMapping
-	public List<Employee> getAll() {
+	@GetMapping(produces = {"application/json","application/xml"})
+	@Operation(summary = "This API will provide all employee details from MySQL DB")
+	public List<EmployeeDTO> getAll() {
 		return service.getAllEmployee();
 	}
 	@GetMapping("/{eid}")
-	public Employee getEmp(@PathVariable int eid) {
-		return service.getEmployee(eid);
+	public ResponseEntity<EmployeeDTO> getEmp(@PathVariable int eid) {
+		return new ResponseEntity<EmployeeDTO>(service.getEmployee(eid),HttpStatus.OK);
+		
 	}
-	@GetMapping("/name/{name}")
-	public List<Employee> getEmpByName(@PathVariable String name) {
+	@GetMapping("/name")
+	public List<EmployeeDTO> getEmpByName(@RequestParam("n") String name) {
 		return service.getEmployeeByName(name);
 	}
 	
-	@PostMapping
-	public Employee createNewEmployee(@RequestBody Employee emp) {
+	@PostMapping(consumes = {"application/json","application/xml"})
+	public EmployeeDTO createNewEmployee(@RequestBody @Valid EmployeeDTO emp) {
 		return service.createEmployee(emp);
 	}
 	

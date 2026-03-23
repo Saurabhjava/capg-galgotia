@@ -1,5 +1,6 @@
 package com.cg.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,35 +8,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.dao.IEmployeeRepo;
+import com.cg.dto.EmployeeDTO;
+import com.cg.dto.EntityMapper;
 import com.cg.entity.Employee;
+import com.cg.exception.EmployeNotFoundException;
 
 @Service
-public class EmployeeService implements IEmployeeService{
+public class EmployeeService implements IEmployeeService {
 	@Autowired
 	private IEmployeeRepo repo;
+
 	@Override
-	public List<Employee> getAllEmployee() {
-		return repo.findAll();
+	public List<EmployeeDTO> getAllEmployee() {
+		List<Employee> emps = repo.findAll();
+		List<EmployeeDTO> employees = new ArrayList<EmployeeDTO>();
+		emps.forEach(e -> employees.add(EntityMapper.convertEntityToDto(e)));
+		return employees;
 	}
 
 	@Override
-	public Employee createEmployee(Employee emp) {
-		// TODO Auto-generated method stub
-		return repo.saveAndFlush(emp);
+	public EmployeeDTO createEmployee(EmployeeDTO emp) {
+		Employee e = repo.saveAndFlush(EntityMapper.convertObjectToEntity(emp));
+
+		return EntityMapper.convertEntityToDto(e);
 	}
 
+//	@Override
+//	public EmployeeDTO createEmployee(Employee emp) {
+//		// TODO Auto-generated method stub
+//		Employee e=repo.saveAndFlush(emp);
+//		
+//		return e;
+//	}
+
 	@Override
-	public Employee getEmployee(int empid) {
-		Optional<Employee> op=repo.findById(empid);
-		if(op.isPresent())
-			return op.get();
+	public EmployeeDTO getEmployee(int empid) {
+		Optional<Employee> op = repo.findById(empid);
+		if (op.isPresent())
+			return EntityMapper.convertEntityToDto(op.get());
 		else
-			return null;
+			throw new EmployeNotFoundException("Employee Not Found");
 	}
 
 	@Override
 	public String removeEmployee(int empid) {
-		if(getEmployee(empid)!=null) {
+		if (getEmployee(empid) != null) {
 			repo.deleteById(empid);
 			return "Employee Deleted";
 		} else {
@@ -44,18 +61,20 @@ public class EmployeeService implements IEmployeeService{
 	}
 
 	@Override
-	public Employee updateEmployee(Employee e) {	
-		if(getEmployee(e.getEmpid())!=null)
+	public Employee updateEmployee(Employee e) {
+		if (getEmployee(e.getEmpid()) != null)
 			return repo.saveAndFlush(e);
-		else 
+		else
 			return null;
 	}
 
 	@Override
-	public List<Employee> getEmployeeByName(String name) {
-		
-		return repo.findByName(name);
+	public List<EmployeeDTO> getEmployeeByName(String name) {
+
+		List<Employee> emps = repo.findByName(name);
+		List<EmployeeDTO> employees = new ArrayList<EmployeeDTO>();
+		emps.forEach(e -> employees.add(EntityMapper.convertEntityToDto(e)));
+		return employees;
 	}
-	
 
 }

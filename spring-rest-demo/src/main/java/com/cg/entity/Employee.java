@@ -15,14 +15,13 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int empid;
 	private String name;
-	@JsonFormat(pattern = "dd-MMM-yyyy")
 	private LocalDate dob;
-	private double salary;
+	private Double salary;
 	
 	public Employee() {
 		// TODO Auto-generated constructor stub
 	}
-	public Employee(String name, LocalDate dob, double salary) {
+	public Employee(String name, LocalDate dob, Double salary) {
 		super();
 		this.name = name;
 		this.dob = dob;
@@ -46,10 +45,10 @@ public class Employee {
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
-	public double getSalary() {
+	public Double getSalary() {
 		return salary;
 	}
-	public void setSalary(double salary) {
+	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
 	
